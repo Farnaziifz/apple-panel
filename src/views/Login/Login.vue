@@ -6,7 +6,7 @@
       </div>
       <div class="login-form">
         <h4 class="login-title">ورود</h4>
-        <p>به پنل مدیریت الماس کریمخان خوش آمدید</p>
+        <p>به پنل مدیریت اپل دیلی خوش آمدید</p>
         <form @submit.prevent="submitLogin" class="form-container">
           <fav-input v-model="userName" label="نام کاربری" />
           <fav-input v-model="password" label="رمز ورود" type="password" />
@@ -25,34 +25,19 @@ export default {
   data() {
     return {
       userName: "",
-      password: "",
-      rememberMe: "",
-      accessToken: "",
+      password: ""
     };
   },
 
   methods: {
     async submitLogin() {
-      const response = await this.$ApiServiceLayer.post("admin-login", {
-        email: this.userName,
-        password: this.password,
-      });
-      if (response.token) {
-        this.accessToken = "Bearer " + response.token;
-        this.$Store.commit("login/synsLoginTempToken", this.accessToken);
-        this.$Store.commit("login/loginData", response);
-        this.$router.push("/dashboard");
-      } else if (response.status === 400) {
-        this.$notify({
-          group: "tc",
-          type: "danger",
-          text: response.data.error.message,
-        });
+      if (this.userName === "admin" && this.password === "P@ssword") {
+        this.$router.push("/dashbaord");
       } else {
         this.$router.push("/login");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

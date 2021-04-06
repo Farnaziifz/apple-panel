@@ -33,6 +33,7 @@
                       <span @click="openEditModal(item.id, item.name)"
                         ><i class="feather icon-edit"></i
                       ></span>
+                    
                     </td>
                   </tr>
                 </template>
@@ -44,10 +45,6 @@
                 </template>
                 <template slot="mnx-body">
                   <fav-input placeholder="نام دسته بندی" v-model="gpCatName" />
-                  <fav-input
-                    placeholder="نشانک دسته بندی"
-                    v-model="gpCatSlug"
-                  />
                 </template>
                 <template slot="mnx-footer">
                   <div class="btn-container">
@@ -92,24 +89,23 @@ export default {
       tableTitle: [
         {
           title: "ردیف",
-          name: "row",
+          name: "row"
         },
         {
           title: "نام دسته بندی ",
-          name: "unit-name",
+          name: "unit-name"
         },
 
         {
           title: "عملیات",
-          name: null,
-        },
+          name: null
+        }
       ],
       category: null,
       isEdit: false,
       gpCatName: null,
-      gpCatSlug: null,
       itemName: "",
-      itemForDelet: null,
+      itemForDelet: null
     };
   },
 
@@ -119,7 +115,7 @@ export default {
   methods: {
     async getCategory() {
       const response = await this.$ApiServiceLayer.get(
-        `category_by_group/${this.$route.params.id}`
+        `product-sub-category/${this.$route.params.id}`
       );
       this.category = response;
     },
@@ -146,24 +142,26 @@ export default {
         {
           name: this.gpCatName,
           slug: this.gpCatSlug,
-          group_category_id: this.$route.params.id,
+          group_category_id: this.$route.params.id
         }
       );
       this.$notify({
         group: "tc",
         type: "primary",
-        text: "دسته بندی با موفقیت ویرایش شد!",
+        text: "دسته بندی با موفقیت ویرایش شد!"
       });
       this.$refs.addModal.close();
       this.isEdit = false;
       this.getCategory();
     },
     async addGPCategory() {
-      let fd = new FormData();
-      fd.append("group_category_id", this.$route.params.id);
-      fd.append("name", this.gpCatName);
-      fd.append("slug", this.gpCatSlug);
-      const response = await this.$ApiServiceLayer.post("category", fd);
+      const response = await this.$ApiServiceLayer.post(
+        "product-sub-category/create",
+        {
+          name: this.gpCatName,
+          category_id: this.$route.params.id
+        }
+      );
       this.$refs.addModal.close();
       this.getCategory();
     },
@@ -180,13 +178,13 @@ export default {
       this.$notify({
         group: "tc",
         type: "danger",
-        text: "دسته بندی با موفقیت حذف شد شد!",
+        text: "دسته بندی با موفقیت حذف شد شد!"
       });
       this.$refs.confirmForDelete.closeModal();
       this.getCategory();
       // }
-    },
-  },
+    }
+  }
 };
 </script>
 

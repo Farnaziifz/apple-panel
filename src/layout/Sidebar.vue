@@ -52,18 +52,6 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/menuList" class="nav-link">
-                  <i class="feather"></i>
-                  <p>مدیریت منو</p>
-                </router-link>
-              </li>
-              <!-- <li class="nav-item">
-                <router-link to="/pages" class="nav-link">
-                  <i class="feather"></i>
-                  <p>مدیریت صفحات</p>
-                </router-link>
-              </li> -->
-               <li class="nav-item">
                 <router-link to="/siteSetting" class="nav-link">
                   <i class="feather"></i>
                   <p>تنظیمات سایت</p>
@@ -72,77 +60,7 @@
             </div>
           </template>
         </fav-sidebar-dropdown>
-        <fav-sidebar-dropdown
-          class="side-dropdown"
-          title="مدیریت واحدها"
-          iconName="feather icon-grid"
-        >
-          <template slot="navItems">
-            <div>
-              <li class="nav-item">
-                <router-link to="/unit-list" class="nav-link">
-                  <i class="feather"></i>
-                  <p>لیست واحدها</p>
-                </router-link>
-              </li>
-            </div>
-          </template>
-        </fav-sidebar-dropdown>
 
-        <fav-sidebar-dropdown
-          class="side-dropdown"
-          title="مدیریت کاربران"
-          iconName="feather icon-users"
-        >
-          <template slot="navItems">
-            <div>
-              <li class="nav-item">
-                <router-link to="/user-list" class="nav-link">
-                  <i class="feather"></i>
-                  <p>لیست کاربران</p>
-                </router-link>
-              </li>
-            </div>
-          </template>
-        </fav-sidebar-dropdown>
-        <fav-sidebar-dropdown
-          class="side-dropdown"
-          title="مدیریت دسته بندی‌ها"
-          iconName="feather icon-database"
-        >
-          <template slot="navItems">
-            <div>
-              <li class="nav-item">
-                <router-link to="/productGroupCategory" class="nav-link">
-                  <i class="feather"></i>
-                  <p>دسته بندی محصولات</p>
-                </router-link>
-              </li>
-            </div>
-          </template>
-        </fav-sidebar-dropdown>
-        <fav-sidebar-dropdown
-          class="side-dropdown"
-          title="مدیریت ویژگی محصولات"
-          iconName="feather icon-map"
-        >
-          <template slot="navItems">
-            <div>
-              <li class="nav-item">
-                <router-link to="/gpAttrList" class="nav-link">
-                  <i class="feather icon-order"></i>
-                  <p>مدیریت ویژگی‌های مرجع</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/AttrList" class="nav-link">
-                  <i class="feather icon-order"></i>
-                  <p>لیست ویژگی‌های محصولات</p>
-                </router-link>
-              </li>
-            </div>
-          </template>
-        </fav-sidebar-dropdown>
         <fav-sidebar-dropdown
           class="side-dropdown"
           title="مدیریت محصولات"
@@ -151,30 +69,24 @@
           <template slot="navItems">
             <div>
               <li class="nav-item">
-                <router-link to="/productList" class="nav-link">
+                <router-link to="/productGroupCategory" class="nav-link">
                   <i class="feather"></i>
-                  <p>لیست محصولات</p>
+                  <p>مدیریت دسته بندی‌ها</p>
                 </router-link>
               </li>
             </div>
-          </template>
-        </fav-sidebar-dropdown>
-        <fav-sidebar-dropdown
-          class="side-dropdown"
-          title="مدیریت سفارشات"
-          iconName="feather icon-credit-card"
-        >
-          <template slot="navItems">
+
             <div>
               <li class="nav-item">
-                <router-link to="/orderList" class="nav-link">
-                  <i class="feather icon-order"></i>
-                  <p>لیست سفارشات</p>
+                <router-link to="/productList" class="nav-link">
+                  <i class="feather"></i>
+                  <p>مدیریت محصولات</p>
                 </router-link>
               </li>
             </div>
           </template>
         </fav-sidebar-dropdown>
+
         <fav-sidebar-dropdown
           class="side-dropdown"
           title="مدیریت مقالات"
@@ -233,13 +145,13 @@ export default {
       items: [
         {
           text: "gac",
-          value: "df",
+          value: "df"
         },
         {
           text: "gace",
-          value: "def",
-        },
-      ],
+          value: "def"
+        }
+      ]
     };
   },
   mounted() {
@@ -308,8 +220,8 @@ export default {
         document.body.classList.add("vertical-menu-modern");
         document.body.classList.add("menu-expanded");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

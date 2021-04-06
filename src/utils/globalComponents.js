@@ -48,6 +48,7 @@ import Chart from "@/elements/Chart/Chart.vue";
 // import "echarts/lib/component/title";
 
 
+
 const GlobalComponents = {
   // use packages
   install(Vue) {
