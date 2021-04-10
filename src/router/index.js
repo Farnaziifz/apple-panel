@@ -57,6 +57,14 @@ export const routes = [
           title: 'افزودن محصول'
         }
       },
+      {
+        path: '/sliders',
+        name: 'sliders',
+        component: () => import('@/views/SiteManagment/Slider.vue'),
+        meta: {
+          title: 'لیست اسلایدرها'
+        }
+      },
     ],
   },
 
