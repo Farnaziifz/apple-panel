@@ -65,6 +65,30 @@ export const routes = [
           title: 'لیست اسلایدرها'
         }
       },
+      {
+        path: '/tagList',
+        name: 'tag-list',
+        component: () => import('@/views/BlogManagment/TagList.vue'),
+        meta: {
+          title: 'مدیریت تگ‌های بلاگ'
+        }
+      },
+      {
+        path: '/blogList',
+        name: 'blog-list',
+        component: () => import('@/views/BlogManagment/BlogList.vue'),
+        meta: {
+          title: 'مدیریت بلاگ'
+        }
+      },
+      {
+        path: '/addBlog',
+        name: 'blog-add',
+        component: () => import('@/views/BlogManagment/AddBlog.vue'),
+        meta: {
+          title: 'افزودن بلاگ'
+        }
+      },
     ],
   },
 

@@ -101,22 +101,15 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/adminBlogList" class="nav-link">
+                <router-link to="/blogList" class="nav-link">
                   <i class="feather icon-order"></i>
-                  <p>مدیریت مقالات مجموعه</p>
-                </router-link>
-              </li>
-
-              <li class="nav-item">
-                <router-link to="/unitBlog" class="nav-link">
-                  <i class="feather icon-order"></i>
-                  <p>مدیریت مقالات واحدها</p>
+                  <p>مدیریت مقالات</p>
                 </router-link>
               </li>
             </div>
           </template>
         </fav-sidebar-dropdown>
-        <fav-sidebar-dropdown
+        <!-- <fav-sidebar-dropdown
           class="side-dropdown"
           title="مدیریت نظرات"
           iconName="feather icon-message-circle"
@@ -131,7 +124,7 @@
               </li>
             </div>
           </template>
-        </fav-sidebar-dropdown>
+        </fav-sidebar-dropdown> -->
       </ul>
     </div>
   </div>

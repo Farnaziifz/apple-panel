@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <customizer></customizer>
+    <!-- <customizer></customizer> -->
     <notify-container></notify-container>
   </div>
 </template>

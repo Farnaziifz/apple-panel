@@ -24,14 +24,10 @@ export default class UploadAdapter {
     // Initializes the XMLHttpRequest object using the URL passed to the constructor.
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        let localstoragetoken = JSON.parse(localStorage.getItem('almas-admin-store'));
-        let token = localstoragetoken.login.loginTempToken;
-        xhr.open( 'POST', 'https://api.almaskarimkhan.com/api/v1/upload_image', true );
+        xhr.open( 'POST', 'https://api.appledailystore.com/upload', true );
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('Accept', 'application/json');
-        xhr.setRequestHeader('Authorization',token);
         xhr.setRequestHeader('Origin','http://localhost:8080');
-
         xhr.responseType = 'json';
     }
 

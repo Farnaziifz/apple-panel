@@ -26,11 +26,14 @@
                     <td>
                       {{ item.name }}
                     </td>
+                    <td>
+                      <img :src="item.icon" alt="" class="image" />
+                    </td>
                     <td class="operation">
-                      <span @click="showModal(item.id, item.name)"
+                      <span @click="showModal(item._id, item.name)"
                         ><i class="feather icon-trash-2"></i
                       ></span>
-                      <span @click="openEditModal(item.id, item.name)"
+                      <span @click="openEditModal(item._id, item.name)"
                         ><i class="feather icon-edit"></i
                       ></span>
                       <router-link :to="`/subCategory/${item._id}`" tag="span"
@@ -47,7 +50,7 @@
                 </template>
                 <template slot="mnx-body">
                   <fav-input placeholder="نام دسته بندی" v-model="gpCatName" />
-                 
+                  <fav-file-upload label="ایکون اسلایدر" @input="getMainPic" />
                 </template>
                 <template slot="mnx-footer">
                   <div class="btn-container">
@@ -98,6 +101,10 @@ export default {
           title: "نام دسته بندی ",
           name: "unit-name"
         },
+        {
+          title: "عکس دسته بندی ",
+          name: "unit-name"
+        },
 
         {
           title: "عملیات",
@@ -108,7 +115,9 @@ export default {
       isEdit: false,
       gpCatName: null,
       itemName: "",
-      itemForDelet: null
+      itemForDelet: null,
+      iconUrl: null,
+      itemForEdit: null
     };
   },
 
@@ -124,46 +133,45 @@ export default {
       this.isEdit = false;
       this.$refs.addModal.open();
     },
-    async getGPCatItem(id) {
-      const response = await this.$ApiServiceLayer.get(`category/${id}`);
-      // if (response.responseCode === 200) {
-      this.gpCatName = response.name;
-      this.gpCatSlug = response.slug;
-      // }
-    },
     openEditModal(id, name) {
-      this.getGPCatItem(id);
-      this.itemForEdit = id;
       this.isEdit = true;
       this.$refs.addModal.open();
+      this.itemForEdit = id;
     },
-    async editGPCategory() {
-      const response = await this.$ApiServiceLayer.post(
-        `category/${this.itemForEdit}?_method=PUT`,
-        {
-          name: this.gpCatName,
-          slug: this.gpCatSlug,
-          group_category_id: this.$route.params.id
-        }
-      );
-      this.$notify({
-        group: "tc",
-        type: "primary",
-        text: "دسته بندی با موفقیت ویرایش شد!"
-      });
-      this.$refs.addModal.close();
-      this.isEdit = false;
-      this.getCategory();
+    async getCatgeoyrSingle() {},
+    async getMainPic(value) {
+      let fd = new FormData();
+      fd.append("image", value.files[0]);
+      const response = await this.$ApiServiceLayer.post("upload", fd);
+      if (response.filename) {
+        this.$notify({
+          group: "tc",
+          type: "success",
+          text: "ایکون با موفقیت بارگذاری شد!"
+        });
+        this.iconUrl = `http://api.appledailystore.com/upload/${response.filename}`;
+      }
     },
+
     async addGPCategory() {
       const response = await this.$ApiServiceLayer.post(
         "product-category/create",
         {
-          name: this.gpCatName
+          name: this.gpCatName,
+          icon: this.iconUrl
         }
       );
       this.$refs.addModal.close();
       this.getCategory();
+    },
+    async editGPCategory() {
+      const response = await this.$ApiServiceLayer.put(
+        `product-category/update/${this.itemForEdit}`,
+        {
+          name: "salam"
+        }
+      );
+      console.log(response);
     },
     showModal(id, name) {
       this.itemName = name;
@@ -172,9 +180,8 @@ export default {
     },
     async deleteProductItem() {
       const response = await this.$ApiServiceLayer.delete(
-        `category/${this.itemForDelet}`
+        `product-category/delete/${this.itemForDelet}`
       );
-      // if (response.responseCode === 200) {
       this.$notify({
         group: "tc",
         type: "danger",
@@ -182,7 +189,6 @@ export default {
       });
       this.$refs.confirmForDelete.closeModal();
       this.getCategory();
-      // }
     }
   }
 };
@@ -209,5 +215,10 @@ export default {
 .btn-container {
   display: flex;
   justify-content: flex-end;
+}
+.image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 </style>
