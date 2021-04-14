@@ -4,7 +4,7 @@
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
       <div class="content-body">
-        <router-link to="/addBlog"  class="btn btn-primary mb-2">
+        <router-link to="/addBlog" class="btn btn-primary mb-2">
           افزودن بلاگ جدید
         </router-link>
         <div class="row" id="basic-table">
@@ -27,9 +27,9 @@
                       {{ item.title }}
                     </td>
                     <td class="operation">
-                      <span @click="showModal(item._id, item.title)"
+                      <router-link :to="`/editBlog/${item._id}`" tag="span"
                         ><i class="feather icon-edit"></i
-                      ></span>
+                      ></router-link>
                       <span @click="showModal(item._id, item.title)"
                         ><i class="feather icon-trash-2"></i
                       ></span>
@@ -45,6 +45,15 @@
         </div>
       </div>
     </div>
+    <fav-confirm-modal
+      ref="confirmForDelete"
+      @onConfirm="deleteUserItem"
+      :title="deleteName"
+      confirmTitle="حذف"
+      confirmDescription="از حذف این رکورد اطمینان دارید؟"
+      confirmBtn="بله حذف کن"
+      cancelBtn="انصراف"
+    />
   </div>
 </template>
 
@@ -66,7 +75,9 @@ export default {
           name: null
         }
       ],
-      blogs: null
+      blogs: null,
+      deleteName: null,
+      deleteid: null
     };
   },
   created() {
@@ -75,8 +86,29 @@ export default {
   methods: {
     async getBlog() {
       const response = await this.$ApiServiceLayer.get("blog");
+      if (response.statusCode === 200) {
+        this.blogs = response.blogs;
+      }
+    },
+    showModal(id, name) {
+      this.deleteName = name;
+      this.deleteid = id;
+      this.$refs.confirmForDelete.openModal();
+    },
+    async deleteUserItem() {
+      const response = await this.$ApiServiceLayer.delete(
+        `blog/delete/${this.deleteid}`
+      );
       console.log(response);
-      this.blogs = response;
+      if (response.statusCode === 200) {
+        this.$refs.confirmForDelete.closeModal();
+        this.getBlog();
+        this.$notify({
+          group: "tc",
+          type: "success",
+          text: "پست با موفقیت ویرایش شد!"
+        });
+      }
     }
   }
 };

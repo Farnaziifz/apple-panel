@@ -27,7 +27,7 @@
                       {{ item.title }}
                     </td>
                     <td class="operation">
-                      <span @click="showModal(item._id, item.title)"
+                      <span @click="showEditModal(item._id, item.title)"
                         ><i class="feather icon-edit"></i
                       ></span>
                     </td>
@@ -49,6 +49,21 @@
       <template slot="mnx-footer">
         <div class="btn-container">
           <button class="btn btn-success" @click="addTag">
+            افزودن تگ
+          </button>
+        </div>
+      </template>
+    </fav-modal>
+    <fav-modal ref="EditModal">
+      <template slot="mnx-header">
+        <h5 class="dark">تک زیر را ویرایش کنید</h5>
+      </template>
+      <template slot="mnx-body">
+        <fav-input placeholder="نام تگ" v-model="editname" />
+      </template>
+      <template slot="mnx-footer">
+        <div class="btn-container">
+          <button class="btn btn-success" @click="editTag">
             افزودن تگ
           </button>
         </div>
@@ -76,7 +91,9 @@ export default {
         }
       ],
       tags: null,
-      title: null
+      title: null,
+      editname: null,
+      editId: null
     };
   },
   created() {
@@ -85,8 +102,9 @@ export default {
   methods: {
     async getBlogTag() {
       const response = await this.$ApiServiceLayer.get("blog-tags");
-      console.log(response);
-      this.tags = response;
+      if (response.statusCode === 200) {
+        this.tags = response.blogTags;
+      }
     },
     openAddModal() {
       this.$refs.addModal.open();
@@ -95,7 +113,6 @@ export default {
       const response = await this.$ApiServiceLayer.post("blog-tags/create", {
         title: this.title
       });
-      console.log(response);
       if (response.statusCode === 200) {
         this.$refs.addModal.close();
         this.getBlogTag();
@@ -103,6 +120,29 @@ export default {
           group: "tc",
           type: "success",
           text: "تگ با موفقیت افوزده شد!"
+        });
+      }
+    },
+    showEditModal(id, name) {
+      this.$refs.EditModal.open();
+      this.editname = name;
+      this.editId = id;
+    },
+    async editTag() {
+      const response = await this.$ApiServiceLayer.put(
+        `blog-tags/update/${this.editId}`,
+        {
+          title: this.editname
+        }
+      );
+      console.log(response);
+      if (response.statusCode === 200) {
+        this.$refs.EditModal.close();
+        this.getBlogTag();
+        this.$notify({
+          group: "tc",
+          type: "success",
+          text: "تگ با موفقیت ویرایش شد!"
         });
       }
     }

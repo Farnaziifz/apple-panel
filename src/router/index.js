@@ -89,6 +89,14 @@ export const routes = [
           title: 'افزودن بلاگ'
         }
       },
+      {
+        path: '/editBlog/:id',
+        name: 'blog-edit',
+        component: () => import('@/views/BlogManagment/EditBlog.vue'),
+        meta: {
+          title: 'ویرایش بلاگ'
+        }
+      },
     ],
   },
 

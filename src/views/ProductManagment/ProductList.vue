@@ -44,6 +44,15 @@
                   </tr>
                 </template>
               </fav-table-view>
+              <fav-confirm-modal
+                ref="confirmForDelete"
+                @onConfirm="deleteUserItem"
+                :title="itemName"
+                confirmTitle="حذف"
+                confirmDescription="از حذف این رکورد اطمینان دارید؟"
+                confirmBtn="بله حذف کن"
+                cancelBtn="انصراف"
+              />
             </div>
           </div>
         </div>
@@ -94,7 +103,9 @@ export default {
       console.log(response);
       this.product = response;
     },
-    showModal() {},
+    showModal() {
+      
+    },
     openEditModal() {}
   }
 };
