@@ -32,7 +32,7 @@ export default {
   methods: {
     async submitLogin() {
       if (this.userName === "admin" && this.password === "P@ssword") {
-        this.$router.push("/dashbaord");
+        this.$router.push("/dashbaord").catch(()=>{});
       } else {
         this.$router.push("/login");
       }
