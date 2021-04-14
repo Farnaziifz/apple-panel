@@ -41,7 +41,7 @@
                   ></ckeditor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-2">
                 <div class="col-12">
                   <div class="btn-container">
                     <button class="btn btn-success" @click="addBlog">
@@ -78,9 +78,11 @@ export default {
   methods: {
     async getTags() {
       const response = await this.$ApiServiceLayer.get("blog-tags");
-      response.forEach(item => {
-        this.tags.push({ text: item.title, value: item._id });
-      });
+      if (response.statusCode === 200) {
+        response.blogTags.forEach(item => {
+          this.tags.push({ text: item.title, value: item._id });
+        });
+      }
     },
     setTag(value) {
       this.tagList.push(value.text);

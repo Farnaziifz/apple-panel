@@ -127,7 +127,9 @@ export default {
   methods: {
     async getCategory() {
       const response = await this.$ApiServiceLayer.get(`product-category`);
-      this.category = response;
+      if (response.statusCode === 200) {
+        this.category = response.productCategory;
+      }
     },
     openAddModal() {
       this.isEdit = false;

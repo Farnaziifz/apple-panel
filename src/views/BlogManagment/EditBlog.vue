@@ -46,7 +46,7 @@
                   <div class="col-12">
                     <div class="btn-container">
                       <button class="btn btn-success" @click="addBlog">
-                        افزودن مقاله
+                        ویرایش مقاله
                       </button>
                     </div>
                   </div>
