@@ -41,7 +41,7 @@ export default {
 
   methods: {
     changeCheckboxStatus(event) {
-      console.log(this.itemId);
+      console.log(console.log(event));
       let itemInfo = { id: this.itemId, status: event.target.checked };
       this.$emit("input", itemInfo);
       this.$emit("inputChanged", event);

@@ -27,13 +27,12 @@
                       {{ item.name }}
                     </td>
                     <td class="operation">
-                      <span @click="showModal(item.id, item.name)"
+                      <span @click="showModal(item._id, item.name)"
                         ><i class="feather icon-trash-2"></i
                       ></span>
                       <span @click="openEditModal(item.id, item.name)"
                         ><i class="feather icon-edit"></i
                       ></span>
-                    
                     </td>
                   </tr>
                 </template>
@@ -117,7 +116,9 @@ export default {
       const response = await this.$ApiServiceLayer.get(
         `product-sub-category/${this.$route.params.id}`
       );
-      this.category = response;
+      if (response.statusCode === 200) {
+        this.category = response.subCategory;
+      }
     },
     openAddModal() {
       this.isEdit = false;
@@ -172,17 +173,17 @@ export default {
     },
     async deleteProductItem() {
       const response = await this.$ApiServiceLayer.delete(
-        `category/${this.itemForDelet}`
+        `product-sub-category/delete/${this.itemForDelet}`
       );
-      // if (response.responseCode === 200) {
-      this.$notify({
-        group: "tc",
-        type: "danger",
-        text: "دسته بندی با موفقیت حذف شد شد!"
-      });
-      this.$refs.confirmForDelete.closeModal();
-      this.getCategory();
-      // }
+      if (response.statusCode === 200) {
+        this.$notify({
+          group: "tc",
+          type: "danger",
+          text: "دسته بندی با موفقیت حذف شد شد!"
+        });
+        this.$refs.confirmForDelete.closeModal();
+        this.getCategory();
+      }
     }
   }
 };

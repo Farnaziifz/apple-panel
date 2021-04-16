@@ -18,7 +18,7 @@ export const routes = [
     component: () => import("@/layout/Layout.vue"),
     children: [
       {
-        path: "/dashboard",
+        path: "/intro",
         name: "dashboard",
         component: () => import("@/views/Dashboard/Dashboard.vue"),
         meta: {

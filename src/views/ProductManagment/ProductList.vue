@@ -26,7 +26,7 @@
                     <td>
                       {{ item.name }}
                     </td>
-                    <td>axxxx</td>
+                    <td><img :src="item.image" alt="" class="img"/></td>
                     <td>{{ item.price | toPersianCurrency("تومان", 0) }}</td>
                     <td v-if="item.hasDiscount">{{ item.dicount }} درصد</td>
                     <td v-else>بدون تخفیف</td>
@@ -103,9 +103,7 @@ export default {
       console.log(response);
       this.product = response;
     },
-    showModal() {
-      
-    },
+    showModal() {},
     openEditModal() {}
   }
 };

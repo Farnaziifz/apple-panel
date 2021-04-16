@@ -111,7 +111,9 @@ export default {
   methods: {
     async getSlider() {
       const response = await this.$ApiServiceLayer.get("home-slider");
-      this.slider = response;
+      if (response.statusCode === 200) {
+        this.slider = response.slider;
+      }
     },
     async deleteSlider() {
       const response = await this.$ApiServiceLayer.delete(

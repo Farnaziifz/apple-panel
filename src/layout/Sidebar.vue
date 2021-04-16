@@ -33,7 +33,7 @@
         data-menu="menu-navigation"
       >
         <li class="nav-item">
-          <router-link to="/dashboard">
+          <router-link to="/intro">
             <i class="feather icon-home"></i>
             <span class="menu-title" data-i18n="Dashboard">داشبرد</span>
           </router-link>

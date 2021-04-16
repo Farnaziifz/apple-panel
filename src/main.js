@@ -42,20 +42,6 @@ export const router = new vueRouter({
   mode: "history",
 });
 
-// router.beforeEach((to, from, next) => {
-//   let token = store.state.login.loginTempToken;
-//   if (token) {
-//     if (to.path === "/login") {
-//       next("/dashboard");
-//     }
-//     next();
-//   } else {
-//     if (to.path !== "/login") {
-//       next("/login");
-//     }
-//     next();
-//   }
-// });
 
 new Vue({
   router,

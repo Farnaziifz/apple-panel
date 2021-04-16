@@ -31,10 +31,12 @@ export default {
 
   methods: {
     async submitLogin() {
-      if (this.userName === "admin" && this.password === "P@ssword") {
-        this.$router.push("/dashbaord").catch(()=>{});
+      if (this.userName === "admin" && this.password === "P@ssw0rd") {
+        console.log("salam");
+        this.$router.push("/intro").catch(() => {});
       } else {
-        this.$router.push("/login");
+        console.log(this.password);
+        this.$router.push("/login").catch(() => {});
       }
     }
   }
