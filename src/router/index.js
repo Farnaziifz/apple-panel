@@ -97,6 +97,22 @@ export const routes = [
           title: 'ویرایش بلاگ'
         }
       },
+      {
+        path: '/commentBlog/:id',
+        name: 'blog-comment',
+        component: () => import('@/views/BlogManagment/commentList.vue'),
+        meta: {
+          title: 'کامنت‌های بلاگ'
+        }
+      },
+      {
+        path: '/contact',
+        name: 'contact',
+        component: () => import('@/views/Contact/index.vue'),
+        meta: {
+          title: 'فرم تماس با ما'
+        }
+      },
     ],
   },
 

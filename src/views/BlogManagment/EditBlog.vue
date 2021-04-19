@@ -92,10 +92,11 @@ export default {
       const response = await this.$ApiServiceLayer.get(
         `blog/${this.$route.params.id}`
       );
-      console.log(response);
-      this.name = response.title;
-      this.tagList = response.tags;
-      this.description = response.description;
+      if (response.statusCode === 200) {
+        this.name = response.blog.title;
+        this.tagList = response.blog.tags;
+        this.description = response.blog.description;
+      }
     },
     setTag(value) {
       this.tagList.push(value.text);

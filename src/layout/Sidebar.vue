@@ -57,6 +57,12 @@
                   <p>تنظیمات سایت</p>
                 </router-link>
               </li>
+              <li class="nav-item">
+                <router-link to="/contact" class="nav-link">
+                  <i class="feather"></i>
+                  <p>فرم تماس با ما</p>
+                </router-link>
+              </li>
             </div>
           </template>
         </fav-sidebar-dropdown>

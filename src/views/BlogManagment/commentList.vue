@@ -4,9 +4,6 @@
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
       <div class="content-body">
-        <router-link to="/addBlog" class="btn btn-primary mb-2">
-          افزودن بلاگ جدید
-        </router-link>
         <div class="row" id="basic-table">
           <div class="col-12">
             <div class="card">
@@ -19,26 +16,33 @@
                   </tr>
                 </template>
                 <template slot="TableBody">
-                  <tr v-for="(item, index) in blogs" :key="item._id">
+                  <tr v-for="(item, index) in comment" :key="item._id">
                     <td>
                       {{ index + 1 }}
                     </td>
                     <td>
-                      {{ item.title }}
+                      {{ item.username }}
+                    </td>
+                    <td>
+                      {{ item.phone }}
                     </td>
                     <td class="operation">
-                      <router-link :to="`/editBlog/${item._id}`" tag="span"
-                        ><i class="feather icon-edit"></i
-                      ></router-link>
-                      <span @click="showModal(item._id, item.title)"
-                        ><i class="feather icon-trash-2"></i
-                      ></span>
-                      <span @click="showModal(item._id, item.title)"
-                        ><i class="feather icon-list"></i
-                      ></span>
-                      <router-link :to="`/commentBlog/${item._id}`" tag="span"
-                        ><i class="feather icon-message-circle"></i
-                      ></router-link>
+                      <span @click="changeStatus(item._id, item.status)"
+                        ><button
+                          class="btn btn-danger"
+                          v-if="item.status === false"
+                        >
+                          عدم نمایش
+                        </button></span
+                      >
+                      <span @click="changeStatus(item._id, item.status)"
+                        ><button
+                          class="btn btn-success"
+                          v-if="item.status === true"
+                        >
+                          نمایش
+                        </button></span
+                      >
                     </td>
                   </tr>
                 </template>
@@ -48,18 +52,8 @@
         </div>
       </div>
     </div>
-    <fav-confirm-modal
-      ref="confirmForDelete"
-      @onConfirm="deleteUserItem"
-      :title="deleteName"
-      confirmTitle="حذف"
-      confirmDescription="از حذف این رکورد اطمینان دارید؟"
-      confirmBtn="بله حذف کن"
-      cancelBtn="انصراف"
-    />
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -70,7 +64,11 @@ export default {
           name: "row"
         },
         {
-          title: "عنوان بلاگ ",
+          title: "نام ",
+          name: "unit-name"
+        },
+        {
+          title: "شماره تماس ",
           name: "unit-name"
         },
         {
@@ -78,38 +76,39 @@ export default {
           name: null
         }
       ],
-      blogs: null,
-      deleteName: null,
-      deleteid: null
+      comment: null
     };
   },
   created() {
-    this.getBlog();
+    this.getComment();
   },
   methods: {
-    async getBlog() {
-      const response = await this.$ApiServiceLayer.get("blog");
-      if (response.statusCode === 200) {
-        this.blogs = response.blogs;
-      }
-    },
-    showModal(id, name) {
-      this.deleteName = name;
-      this.deleteid = id;
-      this.$refs.confirmForDelete.openModal();
-    },
-    async deleteUserItem() {
-      const response = await this.$ApiServiceLayer.delete(
-        `blog/delete/${this.deleteid}`
+    async getComment() {
+      const response = await this.$ApiServiceLayer.get(
+        `blog-comment/comment/${this.$route.params.id}`
       );
       if (response.statusCode === 200) {
-        this.$refs.confirmForDelete.closeModal();
-        this.getBlog();
+        this.comment = response.commnet;
+      }
+    },
+    async changeStatus(id, status) {
+      let sts = false;
+      if (status === false) {
+        sts = true;
+      }
+      const response = await this.$ApiServiceLayer.put(
+        `blog-comment/update/${id}`,
+        {
+          status: sts
+        }
+      );
+      if (response.statusCode === 200) {
         this.$notify({
           group: "tc",
           type: "success",
-          text: "پست با موفقیت ویرایش شد!"
+          text: "ایتم با موفقیت ویرایش شد!"
         });
+        this.getComment();
       }
     }
   }

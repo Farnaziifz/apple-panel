@@ -43,6 +43,50 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                   <fav-file-upload label="عکس محصول" @input="getMainPic" />
                 </div>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-5">
+                      <fieldset
+                        class="form-label-group form-group position-relative has-icon-left "
+                        v-for="(item, index) in specItem"
+                        :key="index"
+                      >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="product-synopsis"
+                          v-model="item.name"
+                          placeholder="عنوان ویژگی"
+                          required
+                        />
+                      </fieldset>
+                    </div>
+                    <div class="col-5">
+                      <fieldset
+                        class="form-label-group form-group position-relative has-icon-left "
+                        v-for="(item, index) in specItem"
+                        :key="index"
+                      >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="product-synopsis"
+                          v-model="item.value"
+                          placeholder="مقدار ویژگی"
+                          required
+                        />
+                      </fieldset>
+                    </div>
+                    <div class="col-1">
+                      <div
+                        class="btn btn-success add-more-item"
+                        @click="addSpecItem"
+                      >
+                        +
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="col-12 mt-4">
                   <ckeditor
                     :editor="editor"
@@ -88,7 +132,8 @@ export default {
         discount: null,
         description: null,
         details: [{ name: "test", value: "salam" }]
-      }
+      },
+      specItem: [{ name: "", value: "" }]
     };
   },
   created() {
@@ -137,11 +182,24 @@ export default {
       }
     },
     async addProduct() {
+      this.model.details = this.specItem;
       const response = await this.$ApiServiceLayer.post(
         "product/create",
         this.model
       );
       console.log(response);
+      if (response.statusCode === 200) {
+        this.$notify({
+          group: "tc",
+          type: "success",
+          text: "محصول با موفقیت اضافه شد!"
+        });
+        this.$router.push({ path: "/productList" });
+      }
+    },
+    addSpecItem() {
+      this.specItem.push({ name: "", value: "" });
+      console.log(this.specItem);
     }
   }
 };
