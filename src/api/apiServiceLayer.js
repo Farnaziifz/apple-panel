@@ -3,7 +3,7 @@ import axios from "axios";
 import store from "@/store/index";
 
 // const baseURL = "http://api.appledailystore.com/";
-const baseURL = "http://localhost:3000/";
+const baseURL = "http://api.appledailystore.com/";
 export default class ApiServiceLayer {
   async get(url, headers = {}, queryStrings, isAuthorized = true) {
     // define variables for keep url and queryString

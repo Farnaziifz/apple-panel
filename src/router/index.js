@@ -113,6 +113,14 @@ export const routes = [
           title: 'فرم تماس با ما'
         }
       },
+      {
+        path: '/blog-category',
+        name: 'blog-category',
+        component: () => import('@/views/BlogManagment/BlogCategoryList.vue'),
+        meta: {
+          title: 'دسته بندی بلاگ'
+        }
+      },
     ],
   },
 

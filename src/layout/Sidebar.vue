@@ -107,6 +107,12 @@
                 </router-link>
               </li>
               <li class="nav-item">
+                <router-link to="/blog-category" class="nav-link">
+                  <i class="feather "></i>
+                  <p>مدیریت دسته بندی بلاگ</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
                 <router-link to="/blogList" class="nav-link">
                   <i class="feather icon-order"></i>
                   <p>مدیریت مقالات</p>
