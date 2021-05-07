@@ -121,6 +121,22 @@ export const routes = [
           title: 'دسته بندی بلاگ'
         }
       },
+      {
+        path: '/daily',
+        name: 'daily',
+        component: () => import('@/views/Daily/list.vue'),
+        meta: {
+          title: 'محصولات روزانه'
+        }
+      },
+      {
+        path: '/add-daily',
+        name: 'add-daily',
+        component: () => import('@/views/Daily/addDaily.vue'),
+        meta: {
+          title: 'افزودن محصول روزانه'
+        }
+      },
     ],
   },
 

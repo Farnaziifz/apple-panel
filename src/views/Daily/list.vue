@@ -4,8 +4,8 @@
     <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
       <div class="content-body">
-        <router-link to="/addBlog" class="btn btn-primary mb-2">
-          افزودن بلاگ جدید
+        <router-link to="/add-daily" class="btn btn-primary mb-2">
+          افزودن محصول جدید
         </router-link>
         <div class="row" id="basic-table">
           <div class="col-12">
@@ -19,26 +19,29 @@
                   </tr>
                 </template>
                 <template slot="TableBody">
-                  <tr v-for="(item, index) in blogs" :key="item._id">
+                  <tr v-for="(item, index) in daily" :key="item._id">
                     <td>
                       {{ index + 1 }}
                     </td>
                     <td>
-                      {{ item.title }}
+                      {{ item.name }}
+                    </td>
+                    <td><img :src="item.image" alt="" class="img" /></td>
+                    <td>{{ item.price | toPersianCurrency("تومان", 0) }}</td>
+                    <td @click="changeStatus(item.status, item._id)">
+                      <span class="btn btn-success" v-if="item.status"
+                        >فعال</span
+                      >
+                      <span class="btn btn-danger" v-else>غیر فعال</span>
                     </td>
                     <td class="operation">
-                      <router-link :to="`/editBlog/${item._id}`" tag="span"
-                        ><i class="feather icon-edit"></i
-                      ></router-link>
-                      <span @click="showModal(item._id, item.title)"
+                      <span @click="showModal(item.id, item.name)"
                         ><i class="feather icon-trash-2"></i
                       ></span>
-                      <span @click="showModal(item._id, item.title)"
-                        ><i class="feather icon-list"></i
+                      <span @click="openEditModal(item.id, item.name)"
+                        ><i class="feather icon-edit"></i
                       ></span>
-                      <router-link :to="`/commentBlog/${item._id}`" tag="span"
-                        ><i class="feather icon-message-circle"></i
-                      ></router-link>
+                    
                     </td>
                   </tr>
                 </template>
@@ -48,15 +51,6 @@
         </div>
       </div>
     </div>
-    <fav-confirm-modal
-      ref="confirmForDelete"
-      @onConfirm="deleteUserItem"
-      :title="deleteName"
-      confirmTitle="حذف"
-      confirmDescription="از حذف این رکورد اطمینان دارید؟"
-      confirmBtn="بله حذف کن"
-      cancelBtn="انصراف"
-    />
   </div>
 </template>
 
@@ -70,7 +64,19 @@ export default {
           name: "row"
         },
         {
-          title: "عنوان بلاگ ",
+          title: "نام محصول ",
+          name: "unit-name"
+        },
+        {
+          title: "عکس محصول ",
+          name: "unit-name"
+        },
+        {
+          title: "قیمت محصول ",
+          name: "unit-name"
+        },
+        {
+          title: "وضعیت نمایش ",
           name: "unit-name"
         },
         {
@@ -78,44 +84,44 @@ export default {
           name: null
         }
       ],
-      blogs: null,
-      deleteName: null,
-      deleteid: null
+      daily: null
     };
   },
   created() {
-    this.getBlog();
+    this.getDaily();
   },
   methods: {
-    async getBlog() {
-      const response = await this.$ApiServiceLayer.get("blog");
+    async getDaily() {
+      const response = await this.$ApiServiceLayer.get("daily");
+      console.log(response);
       if (response.statusCode === 200) {
-        this.blogs = response.blogs;
+        this.daily = response.daily;
       }
     },
-    showModal(id, name) {
-      this.deleteName = name;
-      this.deleteid = id;
-      this.$refs.confirmForDelete.openModal();
-    },
-    async deleteUserItem() {
-      const response = await this.$ApiServiceLayer.delete(
-        `blog/delete/${this.deleteid}`
-      );
+    async changeStatus(status, id) {
+      console.log(status);
+      let sts = false;
+      if (status) {
+        sts = false;
+      } else {
+        sts = true;
+      }
+      const response = await this.$ApiServiceLayer.put(`daily/update/${id}`, {
+        status: sts
+      });
+      console.log(response);
       if (response.statusCode === 200) {
-        this.$refs.confirmForDelete.closeModal();
-        this.getBlog();
+        this.getDaily();
         this.$notify({
           group: "tc",
-          type: "danger",
-          text: "پست با موفقیت حذف شد!"
+          type: "infot",
+          text: "وضعیت با موفقیت به روزرسانی شد!"
         });
       }
     }
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .card {
   padding: 10px !important;
@@ -137,10 +143,5 @@ export default {
 .btn-container {
   display: flex;
   justify-content: flex-end;
-}
-.image {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
 }
 </style>

@@ -11,6 +11,19 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                   <fav-input placeholder="عنوان پست" v-model="name" />
                 </div>
+                <div class="col-lg-6">
+                  <fav-dropdown
+                    :items="categories"
+                    title="دسته بندی مقاله"
+                    @input="getSelectedCategory"
+                  />
+                </div>
+                <div class="col-lg-6">
+                  <fav-file-upload label="تصویر مقاله" @input="getImageUrl" />
+                </div>
+                <div class="col-lg-12">
+                  <fav-input placeholder="متن کوتاه" v-model="synopsis" />
+                </div>
                 <div class="col-lg-12">
                   <fav-dropdown
                     :items="tags"
@@ -69,11 +82,18 @@ export default {
       productCategory: [],
       editorConfig: {},
       tags: [],
-      tagList: []
+      tagList: [],
+      categories: [],
+      category_id: null,
+      category_name: null,
+      image: null,
+      image_url: null,
+      synopsis: null
     };
   },
   created() {
     this.getTags();
+    this.getCategory();
   },
   methods: {
     async getTags() {
@@ -84,14 +104,41 @@ export default {
         });
       }
     },
+    async getCategory() {
+      const response = await this.$ApiServiceLayer.get("blog-categories");
+      if (response.statusCode === 200) {
+        response.blogCategory.forEach(item => {
+          this.categories.push({ value: item._id, text: item.name });
+        });
+      }
+    },
     setTag(value) {
       this.tagList.push(value.text);
+    },
+    getSelectedCategory(value) {
+      console.log(value);
+      this.category_id = value.value;
+      this.category_name = value.text;
+    },
+    async getImageUrl(value) {
+      console.log(value.files[0]);
+      let fd = new FormData();
+      fd.append("image", value.files[0]);
+      const response = await this.$ApiServiceLayer.post("upload", fd);
+      console.log(response);
+      if (response.statusCode === 200) {
+        this.image = `http://api.appledailystore.com/upload/${response.filename}`;
+      }
     },
     async addBlog() {
       const response = await this.$ApiServiceLayer.post("blog/create", {
         title: this.name,
         description: this.description,
-        tags: this.tagList
+        tags: this.tagList,
+        category_id: this.category_id,
+        category_name: this.category_name,
+        image: this.image,
+        synopsis: this.synopsis
       });
       if (response.statusCode === 200) {
         this.$router.push({ path: "/blogList" });

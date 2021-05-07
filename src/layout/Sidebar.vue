@@ -121,22 +121,22 @@
             </div>
           </template>
         </fav-sidebar-dropdown>
-        <!-- <fav-sidebar-dropdown
+        <fav-sidebar-dropdown
           class="side-dropdown"
-          title="مدیریت نظرات"
+          title="مدیریت محصولات روزانه"
           iconName="feather icon-message-circle"
         >
           <template slot="navItems">
             <div>
               <li class="nav-item">
-                <router-link to="/comments" class="nav-link">
+                <router-link to="/daily" class="nav-link">
                   <i class="feather"></i>
-                  <p>لیست نظرات</p>
+                  <p>لیست محصولات</p>
                 </router-link>
               </li>
             </div>
           </template>
-        </fav-sidebar-dropdown> -->
+        </fav-sidebar-dropdown>
       </ul>
     </div>
   </div>
